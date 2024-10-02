@@ -60,11 +60,12 @@ class UserResource extends Resource
                     ->columnSpan(2)
                     ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
                     ->dehydrated(fn(?string $state): bool => filled($state))
-                    ->required(fn(string $operation): bool => $operation === 'create'),
+                    ->hidden(fn(string $operation): bool => $operation === 'create'),
                 TextInput::make('email')
                     ->label('Email')
                     ->email()
                     ->columnSpan(2)
+                    ->unique(ignoreRecord: true)
                     ->required(),
                 DatePicker::make('birthdate')
                     ->label('Birthdate')
@@ -160,6 +161,7 @@ class UserResource extends Resource
                     ->default('-')
                     ->columnSpan(2),
                 RepeatableEntry::make('organizations')
+                    ->hidden(fn(User $record): bool => in_array('user', $record->roles->pluck('name')->toArray()))
                     ->schema([
                         TextEntry::make('name')
                             ->weight(FontWeight::Bold)
@@ -169,7 +171,8 @@ class UserResource extends Resource
                             ->color('gray'),
                         TextEntry::make('description')
                             ->columnSpan(2)
-                            ->formatStateUsing(fn(string $state): HtmlString => new HtmlString($state)),
+                            ->formatStateUsing(fn(string $state): HtmlString => new HtmlString($state))
+                            ->limit(200),
                     ])
                     ->grid(2)
                     ->columnSpan(2),
