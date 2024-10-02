@@ -53,6 +53,7 @@ class User extends Authenticatable
 
     public function organizations(): BelongsToMany
     {
-        return $this->belongsToMany(Organization::class, 'user_organizations', 'user_id', 'organization_id');
+        return $this->belongsToMany(Organization::class, 'user_organizations', 'user_id', 'organization_id')
+            ->withTimestamps();
     }
 }
