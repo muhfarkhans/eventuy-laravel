@@ -175,7 +175,12 @@ class UserResource extends Resource
                     ->columnSpan(2),
                 TextEntry::make('created_at')
                     ->label('Created at')
-                    ->color('gray')
+                    ->badge()
+                    ->color('success'),
+                TextEntry::make('roles.name')
+                    ->label('Roles')
+                    ->badge()
+                    ->color('primary')
             ]);
     }
 
