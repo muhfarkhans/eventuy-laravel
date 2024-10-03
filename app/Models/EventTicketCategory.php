@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class EventTicketCategory extends Model
 {
@@ -19,10 +20,17 @@ class EventTicketCategory extends Model
         'total_ticket',
         'is_publish',
         'color',
+        'color_secondary',
+        'benefits',
     ];
 
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
+    }
+
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(EventTicket::class, 'event_id', 'id');
     }
 }

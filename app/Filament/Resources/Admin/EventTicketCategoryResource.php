@@ -6,11 +6,16 @@ use App\Filament\Resources\Admin\EventTicketCategoryResource\Pages;
 use App\Filament\Resources\Admin\EventTicketCategoryResource\Pages\ListEventTicketCategories;
 use App\Filament\Resources\Admin\EventTicketCategoryResource\RelationManagers;
 use App\Models\EventTicketCategory;
+use App\Tables\Columns\ArrayListColumn;
 use Filament\Forms;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
@@ -34,25 +39,44 @@ class EventTicketCategoryResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
+                    ->default('Ticket title')
+                    ->live()
                     ->label('Name')
                     ->required()
                     ->columnSpan(2),
                 TextInput::make('price')
+                    ->default(0)
+                    ->live()
                     ->label('Price')
+                    ->mask(RawJs::make('$money($input)'))
+                    ->stripCharacters(',')
                     ->required()
+                    ->maxLength(12)
                     ->numeric(),
                 TextInput::make('total_ticket')
                     ->label('Total Ticket')
                     ->required()
                     ->numeric(),
-                Select::make('color')
-                    ->label('Color')
-                    ->options([
-                        'Red',
-                        'Green',
-                        'Blue'
+                Grid::make(2)
+                    ->schema([
+                        ColorPicker::make('color')
+                            ->default('#334155')
+                            ->live()
+                            ->required()
+                            ->columnSpan(1),
+                        ColorPicker::make('color_secondary')
+                            ->default('#fff')
+                            ->live()
+                            ->required()
+                            ->columnSpan(1),
                     ])
-                    ->columnSpan(2)
+                    ->columnSpanFull(),
+                TagsInput::make('benefits')
+                    ->placeholder('Type the benefit')
+                    ->splitKeys(['Tab'])
+                    ->live()
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -62,8 +86,7 @@ class EventTicketCategoryResource extends Resource
             ->columns([
                 TextColumn::make('event.name'),
                 TextColumn::make('name'),
-                TextColumn::make('created_at')
-                    ->dateTime(),
+                ArrayListColumn::make('benefits'),
             ])
             ->filters([
                 //
