@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Admin;
 use App\Filament\Resources\Admin\EventTicketCategoryResource\Pages;
 use App\Filament\Resources\Admin\EventTicketCategoryResource\Pages\ListEventTicketCategories;
 use App\Filament\Resources\Admin\EventTicketCategoryResource\RelationManagers;
+use App\Forms\Components\TextInputWithPreviewUrl;
 use App\Models\EventTicketCategory;
 use App\Tables\Columns\ArrayListColumn;
 use Filament\Forms;
@@ -38,10 +39,10 @@ class EventTicketCategoryResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
+                TextInputWithPreviewUrl::make('name')
                     ->default('Ticket title')
+                    ->setPrependText('https://eventuy.com/event/ticket')
                     ->live()
-                    ->label('Name')
                     ->required()
                     ->columnSpan(2),
                 TextInput::make('price')
