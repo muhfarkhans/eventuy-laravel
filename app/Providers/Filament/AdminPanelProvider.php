@@ -47,6 +47,9 @@ class AdminPanelProvider extends PanelProvider
             ->userMenuItems([
                 'profile' => MenuItem::make()->url(fn(): string => EditProfile::getUrl())
             ])
+            ->font('nunito')
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->brandLogo(fn() => view('filament/components/brand'))
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
