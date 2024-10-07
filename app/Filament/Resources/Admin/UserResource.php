@@ -4,16 +4,8 @@ namespace App\Filament\Resources\Admin;
 
 use App\Filament\Resources\Admin\OrganizationResource\Pages\ViewOrganization;
 use App\Filament\Resources\Admin\UserResource\Pages;
-use App\Filament\Resources\Admin\UserResource\RelationManagers;
 use App\Models\Organization;
-use App\Models\Role;
 use App\Models\User;
-use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\TextEntry\TextEntrySize;
@@ -28,9 +20,7 @@ use Filament\Tables\Columns\TagsColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Hash;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
 
 class UserResource extends Resource
@@ -44,58 +34,6 @@ class UserResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->whereNot('id', auth()->user()->id);
-    }
-
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                TextInput::make('name')
-                    ->label('Full Name')
-                    ->columnSpan(2)
-                    ->required(),
-                TextInput::make('password')
-                    ->label('Password')
-                    ->password()
-                    ->columnSpan(2)
-                    ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
-                    ->dehydrated(fn(?string $state): bool => filled($state))
-                    ->hidden(fn(string $operation): bool => $operation === 'create'),
-                TextInput::make('email')
-                    ->label('Email')
-                    ->email()
-                    ->columnSpan(2)
-                    ->unique(ignoreRecord: true)
-                    ->required(),
-                DatePicker::make('birthdate')
-                    ->label('Birthdate')
-                    ->columnSpan(2)
-                    ->required(),
-                Select::make('gender')
-                    ->options([
-                        'm' => 'Male',
-                        'f' => 'Female'
-                    ])
-                    ->columnSpan(2),
-                Textarea::make('address')
-                    ->label('Address')
-                    ->columnSpan(2)
-                    ->rows(5)
-                    ->autosize(),
-                Select::make('roles')
-                    ->relationship('roles', 'name')
-                    ->multiple()
-                    ->preload()
-                    ->searchable()
-                    ->required()
-                    ->columnSpan(2),
-                Select::make('organizations')
-                    ->relationship('organizations', 'name')
-                    ->multiple()
-                    ->preload()
-                    ->searchable()
-                    ->columnSpan(2),
-            ]);
     }
 
     public static function table(Table $table): Table
