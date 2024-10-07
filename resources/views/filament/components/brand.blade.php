@@ -19,6 +19,8 @@
                         this.mode = 'light'
                     }
                 })
+
+                this.mode = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
             },
             mode: 'light',
             isDarkMode() {
