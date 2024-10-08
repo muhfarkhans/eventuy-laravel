@@ -1,5 +1,7 @@
 <?php
 
+use Filament\Support\Colors\Color;
+
 return [
 
     /*
@@ -86,4 +88,16 @@ return [
 
     'livewire_loading_delay' => 'default',
 
+    'panels' => [
+        'brand_logo' => fn() => view('filament/components/brand'),
+        'font' => 'Nunito',
+        'admin' => [
+            'id' => 'admin',
+            'path' => 'admin',
+            'colors' => [
+                'primary' => Color::Teal
+            ],
+            'brand_name' => config('app.name') . ' Admin',
+        ],
+    ],
 ];

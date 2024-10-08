@@ -27,13 +27,9 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->id('admin')
-            ->path('')
+            ->id(config('filament.panels.admin.id'))
+            ->path(config('filament.panels.admin.path'))
             ->login()
-            // ->profile(isSimple: false)
-            ->colors([
-                'primary' => Color::Teal,
-            ])
             ->discoverResources(in: app_path('Filament/Resources/Admin'), for: 'App\\Filament\\Resources\\Admin')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -47,9 +43,10 @@ class AdminPanelProvider extends PanelProvider
             ->userMenuItems([
                 'profile' => MenuItem::make()->url(fn(): string => EditProfile::getUrl())
             ])
-            ->font('nunito')
             ->viteTheme('resources/css/filament/admin/theme.css')
-            ->brandLogo(fn() => view('filament/components/brand'))
+            ->colors(config('filament.panels.admin.colors'))
+            ->font(config('filament.panels.font'))
+            ->brandLogo(config('filament.panels.brand_logo'))
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
