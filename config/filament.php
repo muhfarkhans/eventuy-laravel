@@ -89,7 +89,7 @@ return [
     'livewire_loading_delay' => 'default',
 
     'panels' => [
-        'brand_logo' => fn() => view('filament/components/brand'),
+        'brand_logo' => fn() => view('components/brand'),
         'font' => 'Nunito',
         'admin' => [
             'id' => 'admin',

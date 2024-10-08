@@ -13,7 +13,7 @@ class CreateEventTicketCategory extends CreateRecord
 
     protected static string $resource = EventTicketCategoryResource::class;
 
-    protected static string $view = 'filament.resources.admin.event-ticket-category.pages.create-event-ticket-category';
+    protected static string $view = 'filament.admin.event-ticket-category.pages.create-event-ticket-category';
 
     protected function getRedirectUrl(): string
     {

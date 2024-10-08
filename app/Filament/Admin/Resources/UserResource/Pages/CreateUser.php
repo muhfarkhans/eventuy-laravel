@@ -23,7 +23,7 @@ class CreateUser extends CreateRecord
 
     protected static string $resource = UserResource::class;
 
-    protected static string $view = 'filament.resources.admin.user.pages.create-user';
+    protected static string $view = 'filament.admin.user.pages.create-user';
 
     protected function getSteps(): array
     {

@@ -22,7 +22,7 @@ class EditProfile extends Page implements HasForms
 
     protected static bool $shouldRegisterNavigation = false;
 
-    protected static string $view = 'filament.pages.edit-profile';
+    protected static string $view = 'filament.admin.pages.edit-profile';
 
     public ?array $data = [];
 
