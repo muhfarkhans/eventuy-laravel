@@ -123,6 +123,6 @@ class EventTicketCategoryResource extends Resource
 
     public static function getRecordTitle(?Model $record): string|null|Htmlable
     {
-        return $record->title;
+        return $record->title ?? '';
     }
 }
