@@ -1,7 +1,7 @@
 <div>
     <ol style="list-style: number">
-        @if (json_decode($getState()) != null)
-            @foreach (json_decode($getState()) as $item)
+        @if ($getState() != null)
+            @foreach ($getState() as $item)
                 <li>{{$item}}</li>
             @endforeach
         @endif

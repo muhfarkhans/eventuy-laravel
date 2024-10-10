@@ -24,6 +24,10 @@ class EventTicketCategory extends Model
         'benefits',
     ];
 
+    protected $casts = [
+        'benefits' => 'array',
+    ];
+
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
