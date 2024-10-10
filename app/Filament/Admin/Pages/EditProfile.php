@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Pages;
 
+use App\Enums\Gender;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -47,7 +48,6 @@ class EditProfile extends Page implements HasForms
                     ->columnSpan(2)
                     ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
                     ->dehydrated(fn(?string $state): bool => filled($state)),
-                // ->required(fn(string $operation): bool => $operation === 'create'),
                 TextInput::make('email')
                     ->label('Email')
                     ->email()
@@ -58,10 +58,7 @@ class EditProfile extends Page implements HasForms
                     ->columnSpan(2)
                     ->required(),
                 Select::make('gender')
-                    ->options([
-                        'm' => 'Male',
-                        'f' => 'Female'
-                    ])
+                    ->options(Gender::labels())
                     ->columnSpan(2),
                 Textarea::make('address')
                     ->label('Address')
@@ -69,6 +66,8 @@ class EditProfile extends Page implements HasForms
                     ->rows(10)
                     ->autosize(),
                 Select::make('roles')
+                    ->visible(fn(array $state): bool => in_array('1', $state))
+                    ->disabled(fn(array $state): bool => !in_array('1', $state))
                     ->relationship('roles', 'name')
                     ->multiple()
                     ->preload()
